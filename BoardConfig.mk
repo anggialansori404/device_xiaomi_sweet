@@ -49,11 +49,14 @@ TARGET_KERNEL_ADDITIONAL_FLAGS := \
     HOSTCFLAGS="-fuse-ld=lld -Wno-unused-command-line-argument"
 TARGET_KERNEL_ADDITIONAL_FLAGS += \
     AR=llvm-ar AS=llvm-as NM=llvm-nm OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump STRIP=llvm-strip
+TARGET_KERNEL_CLANG_PATH := $(shell pwd)/prebuilts/clang/host/linux-x86/clang-playground
 TARGET_KERNEL_CLANG_COMPILE := true
-TARGET_KERNEL_CLANG_VERSION := proton
+TARGET_KERNEL_CLANG_VERSION := playground
 TARGET_KERNEL_CONFIG := sweet_defconfig
 TARGET_KERNEL_SOURCE := kernel/xiaomi/sweet
 TARGET_KERNEL_ARCH := arm64
+KERNEL_SUPPORTS_LLVM_TOOLS := true
+KERNEL_LD := LD=ld.lld
 
 # Partitions
 BOARD_SUPER_PARTITION_SIZE := 9126805504
@@ -120,6 +123,8 @@ BOARD_VENDOR_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy/vendor
 BOARD_VENDOR_SEPOLICY_DIRS += device/qcom/sepolicy_vndr/generic/vendor/msmsteppe
 BOARD_VENDOR_SEPOLICY_DIRS += device/qcom/sepolicy_vndr/qva/vendor/msmsteppe
 include device/qcom/sepolicy_vndr/SEPolicy.mk
+
+SELINUX_IGNORE_NEVERALLOWS := true
 
 # VINTF
 DEVICE_MANIFEST_FILE := $(DEVICE_PATH)/configs/vintf/manifest.xml
